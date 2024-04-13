@@ -149,7 +149,7 @@ class ProfileView extends GetView<ProfileController> {
           ),
 
           SizedBox(
-            height: 55,
+            height: 56,
             child: TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: primary
@@ -204,7 +204,7 @@ class ProfileView extends GetView<ProfileController> {
           ),
 
           SizedBox(
-            height: 55,
+            height: 56,
             child: TextButton(
               style: TextButton.styleFrom(
                   backgroundColor: primary
@@ -265,7 +265,7 @@ class ProfileView extends GetView<ProfileController> {
                   backgroundColor: redButton
               ),
               onPressed: (){
-
+                controller.logout();
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,

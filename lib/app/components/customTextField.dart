@@ -33,7 +33,8 @@ class CustomTextField extends StatelessWidget {
         obscureText: obsureText,
         style: GoogleFonts.poppins(
             fontSize: 18,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
+            letterSpacing: -0.3,
             color: background
         ),
         decoration: InputDecoration(
@@ -56,7 +57,7 @@ class CustomTextField extends StatelessWidget {
             borderSide: const BorderSide(color: background, width: 1.8),
             borderRadius: BorderRadius.circular(10.r),
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
         ),
         validator: validator,
       ),

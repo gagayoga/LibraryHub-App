@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:libraryhub_fitra/app/modules/buku/views/buku_view.dart';
 
 import '../../../components/customBarMaterial.dart';
 import '../../bookmark/views/bookmark_view.dart';
@@ -16,20 +17,16 @@ class DashboardView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
 
-              body: SafeArea(
-                child: SafeArea(
-                  child: Center(
-                      child: IndexedStack(
-                        index: controller.tabIndex,
-                        children: const [
-                          HomeView(),
-                          BookmarkView(),
-                          HomeView(),
-                          ProfileView(),
-                        ],
-                      )
-                  ),
-                ),
+              body: Center(
+                  child: IndexedStack(
+                    index: controller.tabIndex,
+                    children: const [
+                      HomeView(),
+                      BukuView(),
+                      BookmarkView(),
+                      ProfileView(),
+                    ],
+                  )
               ),
               bottomNavigationBar: CustomBottomBarMaterial(
                 onTap: controller.changeTabIndex,

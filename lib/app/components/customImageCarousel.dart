@@ -14,11 +14,11 @@ class CustomImageCarousel extends StatelessWidget {
         width: double.infinity,
         height: 200,
         initialPage: 0,
-        indicatorColor: Colors.blue,
+        indicatorColor: const Color(0xFF260534),
         indicatorBackgroundColor: Colors.grey,
         onPageChanged: (value) {
         },
-        autoPlayInterval: 3000,
+        autoPlayInterval: 15000,
         isLoop: true,
         children: [
           SvgPicture.asset(

@@ -30,7 +30,7 @@ class CustomBottomBarMaterial extends StatelessWidget {
       showSelectedLabels: true,
       type: BottomNavigationBarType.fixed,
       backgroundColor: colorIcon,
-      selectedFontSize: 16,
+      selectedFontSize: 12,
       selectedLabelStyle: GoogleFonts.poppins(
           fontWeight: FontWeight.w600
       ),

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:libraryhub_fitra/app/modules/bookmark/controllers/bookmark_controller.dart';
+import 'package:libraryhub_fitra/app/modules/buku/controllers/buku_controller.dart';
 import 'package:libraryhub_fitra/app/modules/home/controllers/home_controller.dart';
 import 'package:libraryhub_fitra/app/modules/profile/controllers/profile_controller.dart';
 
@@ -13,6 +14,9 @@ class DashboardBinding extends Bindings {
     );
     Get.lazyPut<HomeController>(
           () => HomeController(),
+    );
+    Get.lazyPut<BukuController>(
+          () => BukuController(),
     );
     Get.lazyPut<BookmarkController>(
           () => BookmarkController(),

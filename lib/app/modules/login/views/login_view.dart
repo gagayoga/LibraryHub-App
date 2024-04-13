@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,12 +17,14 @@ class LoginView extends GetView<LoginController> {
     const Color background =  Color(0xFF260534);
     const Color colorText =  Color(0xFF858896);
 
+    final width = MediaQuery.of(context).size.width;
+
 
     return ScreenUtilInit(
       builder: (context, _) => Scaffold(
         body: Container(
           color: background,
-          width: MediaQuery.of(context).size.width,
+          width: width,
           height: MediaQuery.of(context).size.height,
           child: Center(
             child: SingleChildScrollView(
@@ -36,9 +39,14 @@ class LoginView extends GetView<LoginController> {
                           image: AssetImage('assets/images/splash/background_login.png'),
                           fit: BoxFit.cover,
                         )),
-                    child: const Image(
-                      image: AssetImage('assets/images/splash/logo_libraryhub.png'),
-                    ),
+                    child: Center(
+                      child: SizedBox(
+                        width: width * 0.60,
+                        child: SvgPicture.asset(
+                          'assets/images/logo.svg',
+                        ),
+                      ),
+                    )
                   ),
 
                   Container(
@@ -78,7 +86,7 @@ class LoginView extends GetView<LoginController> {
                             'Silakan masuk ke akun Anda untuk menikmati akses penuh ke LibraryHub.',
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 16.sp,
+                                fontSize: 18,
                                 color: colorText
                             ),
                             maxLines: 2,
@@ -160,10 +168,7 @@ class LoginView extends GetView<LoginController> {
                           SizedBox(
                               height: 50.0,
                               width: double.infinity,
-                              child:  Obx(() => controller.loadinglogin.value?
-                              const CircularProgressIndicator(
-                                color: background,
-                              ): ElevatedButton(
+                              child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: background,
                                       shape: RoundedRectangleBorder(
@@ -171,10 +176,13 @@ class LoginView extends GetView<LoginController> {
                                           BorderRadius.circular(
                                               10.10))),
                                   onPressed: () => controller.login(),
-                                  child: Text(
+                                  child: Obx(() => controller.loadinglogin.value?
+                                  const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ):  Text(
                                     "Sign In",
                                     style: GoogleFonts.poppins(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.white),
                                   )
@@ -194,12 +202,12 @@ class LoginView extends GetView<LoginController> {
                                 Text(
                                   'Don’t have account?',
                                   style: GoogleFonts.poppins(
-                                      fontSize: 16.sp,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.grey),
                                 ),
                                 const SizedBox(
-                                  width: 6,
+                                  width: 8,
                                 ),
                                 GestureDetector(
                                   onTap: (){
@@ -207,7 +215,7 @@ class LoginView extends GetView<LoginController> {
                                   },
                                   child: Text('Sign Up',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 16.sp,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w700,
                                         color: background,
                                       )),
