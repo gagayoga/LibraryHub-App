@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:libraryhub_fitra/app/data/model/response_kategori.dart';
 
 import '../../../data/constant/endpoint.dart';
-import '../../../data/model/response_book_new.dart';
+import '../../../data/model/buku/response_book_new.dart';
+import '../../../data/model/buku/response_kategori.dart';
 import '../../../data/provider/api_provider.dart';
 
 class HomeController extends GetxController with StateMixin{
