@@ -16,7 +16,7 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     required this.labelText,
     required this.obsureText,
-    required this.preffixIcon,
+    this.preffixIcon,
     this.suffixIcon,
     required this.validator,
   });
@@ -57,7 +57,7 @@ class CustomTextField extends StatelessWidget {
             borderSide: const BorderSide(color: background, width: 1.8),
             borderRadius: BorderRadius.circular(10.r),
           ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
         ),
         validator: validator,
       ),

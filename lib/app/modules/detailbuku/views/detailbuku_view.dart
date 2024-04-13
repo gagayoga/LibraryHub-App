@@ -120,147 +120,149 @@ class DetailbukuView extends GetView<DetailbukuController> {
           ),
         );
       }else{
-        return Container(
-          width: width,
-          height: height,
-          decoration: const BoxDecoration(
-              color: Color(0xFFF5F5F5),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20)
-              )
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Column(
-              children: [
-                Text(
-                  "Peminjaman Buku ${dataPeminjaman!.judul.toString()}",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                    letterSpacing: -0.3,
-                    fontSize: 18.0,
+        return SingleChildScrollView(
+          child: Container(
+            width: width,
+            height: height,
+            decoration: const BoxDecoration(
+                color: Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)
+                )
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              child: Column(
+                children: [
+                  Text(
+                    "Peminjaman Buku ${dataPeminjaman!.judul.toString()}",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      letterSpacing: -0.3,
+                      fontSize: 18.0,
+                    ),
+                    textAlign: TextAlign.start,
+                    softWrap: true,
                   ),
-                  textAlign: TextAlign.start,
-                  softWrap: true,
-                ),
 
-                const SizedBox(
-                  height: 10,
-                ),
-
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
-                  child: Divider(
-                    color: Colors.grey,
-                    height: 2,
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
 
-                const SizedBox(
-                  height: 15,
-                ),
-
-                CustomTextFieldPeminjaman(
-                  initialValue: StorageProvider.read(StorageKey.username).toString(),
-                  labelText: 'Peminjam Buku',
-                  obsureText: false,
-                ),
-
-                CustomTextFieldPeminjaman(
-                  initialValue: Get.parameters['judul'].toString(),
-                  labelText: 'Judul Buku',
-                  obsureText: false,
-                ),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: CustomTextFieldPeminjaman(
-                        preficIcon: const Icon(Icons.calendar_today),
-                        initialValue: controller.formattedToday.toString(),
-                        labelText: 'Peminjaman',
-                        obsureText: false,
-                      ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: Divider(
+                      color: Colors.grey,
+                      height: 2,
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: CustomTextFieldPeminjaman(
-                        preficIcon: const Icon(Icons.calendar_today),
-                        initialValue: controller.formattedTwoWeeksLater.toString(),
-                        labelText: 'Pengembalian',
-                        obsureText: false,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
 
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Obx(() => Checkbox(
-                      value: controller.isChecked.value,
-                      onChanged: (value) {
-                        controller.toggleCheckBox();
-                      },
-                      activeColor: const Color(0xFF260534),
-                    )
-                    ),
-                    Expanded(
-                      child: Text(
-                        "Setuju dengan waktu peminjaman buku",
-                        maxLines: 1,
-                        style: GoogleFonts.poppins(
-                          fontSize: 10.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
+                  const SizedBox(
+                    height: 30,
+                  ),
+
+                  CustomTextFieldPeminjaman(
+                    initialValue: StorageProvider.read(StorageKey.username).toString(),
+                    labelText: 'Peminjam Buku',
+                    obsureText: false,
+                  ),
+
+                  CustomTextFieldPeminjaman(
+                    initialValue: Get.parameters['judul'].toString(),
+                    labelText: 'Judul Buku',
+                    obsureText: false,
+                  ),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextFieldPeminjaman(
+                          preficIcon: const Icon(Icons.calendar_today),
+                          initialValue: controller.formattedToday.toString(),
+                          labelText: 'Peminjaman',
+                          obsureText: false,
                         ),
                       ),
-                    )
-                  ],
-                ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: CustomTextFieldPeminjaman(
+                          preficIcon: const Icon(Icons.calendar_today),
+                          initialValue: controller.formattedTwoWeeksLater.toString(),
+                          labelText: 'Pengembalian',
+                          obsureText: false,
+                        ),
+                      ),
+                    ],
+                  ),
 
-                const SizedBox(
-                  height: 20,
-                ),
-
-                SizedBox(
-                    height: 50.0,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: background,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.circular(
-                                    10.10))),
-                        onPressed: () {
-                          if (!controller.isChecked.value) {
-                            return;
-                          }
-                          Navigator.pop(Get.context!, 'OK');
-                          controller.addPeminjamanBuku();
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Obx(() => Checkbox(
+                        value: controller.isChecked.value,
+                        onChanged: (value) {
+                          controller.toggleCheckBox();
                         },
-                        child: Obx(() => controller.loading.value?
-                        const CircularProgressIndicator(
-                          color: Colors.white,
-                        ):  Text(
-                          "Setuju & Lanjutkan",
+                        activeColor: const Color(0xFF260534),
+                      )
+                      ),
+                      Expanded(
+                        child: Text(
+                          "Setuju dengan waktu peminjaman buku",
+                          maxLines: 1,
                           style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        )
-                        )
-                    )
-                ),
-              ],
+                            fontSize: 10.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  SizedBox(
+                      height: 50.0,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: background,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                      10.10))),
+                          onPressed: () {
+                            if (!controller.isChecked.value) {
+                              return;
+                            }
+                            Navigator.pop(Get.context!, 'OK');
+                            controller.addPeminjamanBuku();
+                          },
+                          child: Obx(() => controller.loading.value?
+                          const CircularProgressIndicator(
+                            color: Colors.white,
+                          ):  Text(
+                            "Setuju & Lanjutkan",
+                            style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          )
+                          )
+                      )
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -696,7 +698,7 @@ class DetailbukuView extends GetView<DetailbukuController> {
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
-                        fontSize: 14),
+                        fontSize: 12),
                   ),
                 ],
               ),

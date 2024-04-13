@@ -73,7 +73,6 @@ class HistorypeminjamanView extends GetView<HistorypeminjamanController> {
                     ),
                   ),
                 )
-
               ],
             ),
           ),
@@ -249,23 +248,38 @@ class HistorypeminjamanView extends GetView<HistorypeminjamanController> {
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                Text(
-                                  "Tanggal Pinjam : ${dataKoleksi.tanggalPinjam!}",
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                    fontSize: 12.0,
+                                FittedBox(
+                                  child: Text(
+                                    "Tanggal Pinjam : ${dataKoleksi.tanggalPinjam!}",
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                      fontSize: 12.0,
+                                    ),
+                                    textAlign: TextAlign.start,
                                   ),
-                                  textAlign: TextAlign.start,
                                 ),
-                                Text(
-                                  "Deadline Pinjam : ${dataKoleksi.deadline!}",
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                    fontSize: 12.0,
+                                FittedBox(
+                                  child: Text(
+                                    "Deadline Pinjam : ${dataKoleksi.deadline!}",
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                      fontSize: 12.0,
+                                    ),
+                                    textAlign: TextAlign.start,
                                   ),
-                                  textAlign: TextAlign.start,
+                                ),
+                                FittedBox(
+                                  child: Text(
+                                    "Tanggal Kembali : ${dataKoleksi.tanggalKembali!}",
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                      fontSize: 12.0,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                  ),
                                 ),
                               ],
                             ),

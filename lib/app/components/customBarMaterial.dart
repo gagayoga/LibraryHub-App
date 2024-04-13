@@ -23,6 +23,7 @@ class CustomBottomBarMaterial extends StatelessWidget {
     const Color colorBackground= Color(0xFF989898);
 
     return BottomNavigationBar(
+      elevation: 0,
       unselectedItemColor: colorBackground,
       selectedItemColor: colorSelect,
       onTap: onTap,

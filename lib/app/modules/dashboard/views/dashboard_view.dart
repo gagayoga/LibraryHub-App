@@ -33,7 +33,7 @@ class DashboardView extends StatelessWidget {
               bottomNavigationBar: Container(
                 color: const Color(0xFFFFFFFF),
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: CustomBottomBarMaterial(
                     onTap: controller.changeTabIndex,
                     currentIndex: controller.tabIndex,

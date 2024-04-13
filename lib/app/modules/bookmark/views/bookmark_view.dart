@@ -181,14 +181,16 @@ class BookmarkView extends GetView<BookmarkController> {
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  Text(
-                                    "Penulis : ${dataKoleksi.penulis!}",
-                                    style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                      fontSize: 12.0,
+                                  FittedBox(
+                                    child: Text(
+                                      "Penulis : ${dataKoleksi.penulis!}",
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        fontSize: 12.0,
+                                      ),
+                                      textAlign: TextAlign.start,
                                     ),
-                                    textAlign: TextAlign.start,
                                   ),
                                 ],
                               ),

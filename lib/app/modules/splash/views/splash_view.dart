@@ -4,22 +4,25 @@ import 'package:get/get.dart';
 import 'package:libraryhub_fitra/app/routes/app_pages.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../data/provider/storage_provider.dart';
 import '../controllers/splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
   const SplashView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    String statusUser = StorageProvider.read(StorageKey.status);
+
     Future.delayed(
-      const Duration(milliseconds: 4300), ((){
-      Get.offAllNamed(Routes.ONBOARDING);
+        const Duration(milliseconds: 4300), ( (){
+      if (statusUser == 'logged'){
+        Get.offAllNamed(Routes.DASHBOARD);
+      }else{
+        Get.offAllNamed(Routes.ONBOARDING);
+      }
     })
     );
     return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('SplashView'),
-        //   centerTitle: true,
-        // ),
         body: Container(
           // memberikan background color
           decoration: const BoxDecoration(
