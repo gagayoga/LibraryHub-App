@@ -10,6 +10,8 @@ import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/detailbuku/bindings/detailbuku_binding.dart';
 import '../modules/detailbuku/views/detailbuku_view.dart';
+import '../modules/historypeminjaman/bindings/historypeminjaman_binding.dart';
+import '../modules/historypeminjaman/views/historypeminjaman_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -85,6 +87,11 @@ class AppPages {
       name: _Paths.BOOKBYKATEGORI,
       page: () => const BookbykategoriView(),
       binding: BookbykategoriBinding(),
+    ),
+    GetPage(
+      name: _Paths.HISTORYPEMINJAMAN,
+      page: () => const HistorypeminjamanView(),
+      binding: HistorypeminjamanBinding(),
     ),
   ];
 }

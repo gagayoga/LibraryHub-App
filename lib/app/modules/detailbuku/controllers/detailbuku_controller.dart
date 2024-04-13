@@ -3,9 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:libraryhub_fitra/app/data/model/buku/response_detail_buku.dart';
 
 import '../../../data/constant/endpoint.dart';
+import '../../../data/model/peminjaman/response_peminjaman.dart';
 import '../../../data/provider/api_provider.dart';
 import '../../../data/provider/storage_provider.dart';
 
@@ -16,10 +19,33 @@ class DetailbukuController extends GetxController with StateMixin{
 
   var loading = false.obs;
 
+  late String formattedToday;
+  late String formattedTwoWeeksLater;
+
+  // CheckBox
+  var isChecked = false.obs;
+
+  void toggleCheckBox() {
+    isChecked.value = !isChecked.value;
+  }
+
+  // Data Peminjaman
+  late String statusDataPeminjaman;
+
   @override
   void onInit() {
     super.onInit();
     getDataDetailBuku(id);
+
+    // Get Tanggal hari ini
+    DateTime todayDay = DateTime.now();
+
+    // Menambahkan 14 hari ke tanggal hari ini
+    DateTime twoWeeksLater = todayDay.add(const Duration(days: 14));
+
+    // Format tanggal menjadi string menggunakan intl package
+    formattedToday = DateFormat('yyyy-MM-dd').format(todayDay);
+    formattedTwoWeeksLater = DateFormat('yyyy-MM-dd').format(twoWeeksLater);
   }
 
   @override
@@ -134,4 +160,112 @@ class DetailbukuController extends GetxController with StateMixin{
     }
   }
 
+  // Peminjaman Buku
+  addPeminjamanBuku() async {
+    loading(true);
+    try {
+      FocusScope.of(Get.context!).unfocus();
+      var bukuID = id.toString();
+
+      var responsePostPeminjaman = await ApiProvider.instance().post(Endpoint.pinjamBuku,
+        data: {
+          "BukuID": bukuID,
+        },
+      );
+
+      if (responsePostPeminjaman.statusCode == 201) {
+        String judulBuku = Get.parameters['judul'].toString();
+
+        _showMyDialog(
+              () {
+            getDataDetailBuku(bukuID);
+            Navigator.pop(Get.context!, 'OK');
+          },
+          "Peminjaman Berhasil",
+          "Buku $judulBuku berhasil dipinjam",
+          "Oke",
+        );
+      } else {
+        _showMyDialog(
+              () {
+            Navigator.pop(Get.context!, 'OK');
+          },
+          "Pemberitahuan",
+          "Buku gagal dipinjam, silakan coba kembali",
+          "Ok",
+        );
+      }
+      loading(false);
+    } on DioException catch (e) {
+      loading(false);
+      if (e.response != null) {
+        if (e.response?.data != null) {
+          _showMyDialog(
+                () {
+              Navigator.pop(Get.context!, 'OK');
+            },
+            "Pemberitahuan",
+            "${e.response?.data?['message']}",
+            "Ok",
+          );
+        }
+      } else {
+        _showMyDialog(
+              () {
+            Navigator.pop(Get.context!, 'OK');
+          },
+          "Pemberitahuan",
+          e.message ?? "",
+          "OK",
+        );
+      }
+    } catch (e) {
+      loading(false);
+      _showMyDialog(
+            () {
+          Navigator.pop(Get.context!, 'OK');
+        },
+        "Error",
+        e.toString(),
+        "OK",
+      );
+    }
+  }
+
+  Future<void> _showMyDialog(final onPressed, String judul, String deskripsi, String nameButton) async {
+    return showCupertinoDialog(
+        context: Get.context!,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: Text(
+            judul,
+            style: GoogleFonts.poppins(
+                color: Colors.black,
+                fontSize: 14.0,
+                fontWeight: FontWeight.w700
+            ),
+          ),
+          content: Text(
+            deskripsi,
+            style: GoogleFonts.poppins(
+                color: Colors.black,
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500
+            ),
+          ),
+          actions: <CupertinoDialogAction>[
+            CupertinoDialogAction(
+              onPressed: onPressed,
+              child: Text(
+                nameButton,
+                style: GoogleFonts.poppins(
+                    color: const Color(0xFF260534),
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w700
+                ),
+              ),
+            )
+          ],
+        )
+    );
+  }
 }

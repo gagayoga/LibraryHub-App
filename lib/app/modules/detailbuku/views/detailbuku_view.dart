@@ -3,8 +3,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:libraryhub_fitra/app/data/provider/storage_provider.dart';
 
-import '../../../data/model/response_detail_book.dart';
+import '../../../components/customTextFieldPeminjaman.dart';
+import '../../../data/model/buku/response_detail_buku.dart';
 import '../controllers/detailbuku_controller.dart';
 
 class DetailbukuView extends GetView<DetailbukuController> {
@@ -20,17 +22,18 @@ class DetailbukuView extends GetView<DetailbukuController> {
       appBar: AppBar(
         backgroundColor: background,
         toolbarHeight: 50,
+        titleSpacing: -5,
         title: Text(
           Get.parameters['judul'].toString(),
           style: GoogleFonts.poppins(
               fontSize: 16.0,
               color: Colors.black,
-              fontWeight: FontWeight.w500),
+              fontWeight: FontWeight.w600),
         ),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
 
-      body: Container(
+      body: SizedBox(
         width: width,
         height: height,
         child: Stack(
@@ -49,34 +52,48 @@ class DetailbukuView extends GetView<DetailbukuController> {
               bottom: 0,
               left: 0,
               right: 0,
-              child: Container(
-                color: const Color(0xFFF5F5F5),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  child: SizedBox(
-                      height: 50.0,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF260534),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(
-                                      10.10))),
-                          onPressed: () {
+              child: Obx((){
+                var dataButton = controller.dataDetailBook.value?.buku;
 
-                          },
-                          child: Text(
-                            "Pinjam Buku",
-                            style: GoogleFonts.poppins(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white),
-                          )
-                      )
+                return Container(
+                  color: const Color(0xFFF5F5F5),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    child: SizedBox(
+                        height: 50.0,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF260534),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(
+                                        10.10))),
+                            onPressed: () {
+                              if (dataButton?.statusPeminjaman == 'Belum dipinjam') {
+                                 showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context){
+                                      return sectionPeminjamanBuku(width, height * 0.73);
+                                    }
+                                );
+                              }else if(dataButton?.statusPeminjaman == 'Dipinjam'){
+                                return;
+                              }
+                            },
+                            child: Text(
+                              dataButton?.statusPeminjaman == 'Belum dipinjam'
+                                  ? 'Pinjam Buku' : 'Dipinjam',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            )
+                        )
+                    ),
                   ),
-                ),
-              ),
+                );
+              }),
             )
           ],
         ),
@@ -84,6 +101,174 @@ class DetailbukuView extends GetView<DetailbukuController> {
     );
   }
 
+  // Widget Peminjaman Buku
+  Widget sectionPeminjamanBuku(double width, double height){
+    const Color background =  Color(0xFF260534);
+
+    return Obx(() {
+      var dataPeminjaman = controller.dataDetailBook.value?.buku;
+
+      if(controller.dataDetailBook.value == null){
+        return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 50),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: Colors.black,
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF260534)),
+            ),
+          ),
+        );
+      }else{
+        return Container(
+          width: width,
+          height: height,
+          decoration: const BoxDecoration(
+              color: Color(0xFFF5F5F5),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20)
+              )
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              children: [
+                Text(
+                  "Peminjaman Buku ${dataPeminjaman!.judul.toString()}",
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    letterSpacing: -0.3,
+                    fontSize: 18.0,
+                  ),
+                  textAlign: TextAlign.start,
+                  softWrap: true,
+                ),
+
+                const SizedBox(
+                  height: 10,
+                ),
+
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  child: Divider(
+                    color: Colors.grey,
+                    height: 2,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 15,
+                ),
+
+                CustomTextFieldPeminjaman(
+                  initialValue: StorageProvider.read(StorageKey.username).toString(),
+                  labelText: 'Peminjam Buku',
+                  obsureText: false,
+                ),
+
+                CustomTextFieldPeminjaman(
+                  initialValue: Get.parameters['judul'].toString(),
+                  labelText: 'Judul Buku',
+                  obsureText: false,
+                ),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextFieldPeminjaman(
+                        preficIcon: const Icon(Icons.calendar_today),
+                        initialValue: controller.formattedToday.toString(),
+                        labelText: 'Peminjaman',
+                        obsureText: false,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: CustomTextFieldPeminjaman(
+                        preficIcon: const Icon(Icons.calendar_today),
+                        initialValue: controller.formattedTwoWeeksLater.toString(),
+                        labelText: 'Pengembalian',
+                        obsureText: false,
+                      ),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Obx(() => Checkbox(
+                      value: controller.isChecked.value,
+                      onChanged: (value) {
+                        controller.toggleCheckBox();
+                      },
+                      activeColor: const Color(0xFF260534),
+                    )
+                    ),
+                    Expanded(
+                      child: Text(
+                        "Setuju dengan waktu peminjaman buku",
+                        maxLines: 1,
+                        style: GoogleFonts.poppins(
+                          fontSize: 10.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                SizedBox(
+                    height: 50.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: background,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(
+                                    10.10))),
+                        onPressed: () {
+                          if (!controller.isChecked.value) {
+                            return;
+                          }
+                          Navigator.pop(Get.context!, 'OK');
+                          controller.addPeminjamanBuku();
+                        },
+                        child: Obx(() => controller.loading.value?
+                        const CircularProgressIndicator(
+                          color: Colors.white,
+                        ):  Text(
+                          "Setuju & Lanjutkan",
+                          style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        )
+                        )
+                    )
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    });
+  }
+
+  // Data Detail Buku
   Widget sectionDetailBook(){
     final height = MediaQuery.of(Get.context!).size.height;
     final width = MediaQuery.of(Get.context!).size.width;
@@ -164,10 +349,11 @@ class DetailbukuView extends GetView<DetailbukuController> {
                             Text(
                               dataBuku.judul!,
                               maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.black,
-                                fontSize: 34.0,
+                                fontSize: 30.0,
                               ),
                               textAlign: TextAlign.start,
                               softWrap: true,
@@ -221,7 +407,7 @@ class DetailbukuView extends GetView<DetailbukuController> {
                                   controller.addKoleksiBuku(Get.context!);
                                 },
                                 child: Text(
-                                  dataBuku?.status == 'Tersimpan' ? 'Tersimpan' : 'Simpan Buku',
+                                  dataBuku.status == 'Tersimpan' ? 'Tersimpan' : 'Simpan Buku',
                                   style: GoogleFonts.poppins(
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
@@ -506,7 +692,7 @@ class DetailbukuView extends GetView<DetailbukuController> {
 
                   Text(
                     ulasan.ulasan!,
-                    maxLines: 4,
+                    maxLines: 3,
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         color: Colors.black,

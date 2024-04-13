@@ -50,6 +50,10 @@ class CustomBottomBarMaterial extends StatelessWidget {
           label: 'Bookmark',
         ),
         _bottomNavigationBarItem(
+          icon: CupertinoIcons.book_circle_fill,
+          label: 'History',
+        ),
+        _bottomNavigationBarItem(
           icon: CupertinoIcons.person_circle_fill,
           label: 'Profile',
         ),
