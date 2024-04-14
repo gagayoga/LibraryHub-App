@@ -74,7 +74,6 @@ class ProfileView extends GetView<ProfileController> {
           ),
         );
       }else{
-
         var dataProfile = controller.detailProfile.value;
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 40.w),

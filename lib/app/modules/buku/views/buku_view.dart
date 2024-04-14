@@ -54,21 +54,22 @@ class BukuView extends GetView<BukuController> {
 
   Widget sectionSemuaBuku() {
     return Obx((){
-      if (controller.dataAllBook.isEmpty) {
-        return sectionDataKosong("Buku");
-      } else {
-        return GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10.0,
-            mainAxisSpacing: 10.0,
-            childAspectRatio: 4 / 6,
-          ),
-          itemCount: controller.dataAllBook.length,
-          itemBuilder: (context, index) {
-            var buku = controller.dataAllBook[index];
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          childAspectRatio: 4 / 6,
+        ),
+        itemCount: controller.dataAllBook.length,
+        itemBuilder: (context, index) {
+          var buku = controller.dataAllBook[index];
+
+          if(index == null) {
+            return sectionDataKosong(controller.searchController.text.toString());
+          }else{
             return InkWell(
               onTap: () {
                 Get.toNamed(Routes.DETAILBUKU,
@@ -134,9 +135,9 @@ class BukuView extends GetView<BukuController> {
                 ),
               ),
             );
-          },
-        );
-      }
+          }
+        },
+      );
     });
   }
 

@@ -28,7 +28,7 @@ class BookbykategoriView extends GetView<BookbykategoriController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Kategor ${Get.parameters['namaKategori']}',
+                  'Kategori ${Get.parameters['namaKategori']}',
                   style: GoogleFonts.poppins(
                     fontSize: 20,
                     color: Colors.black,

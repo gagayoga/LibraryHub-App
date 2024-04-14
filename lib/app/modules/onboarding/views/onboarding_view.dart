@@ -97,8 +97,8 @@ class OnboardingView extends GetView<OnboardingController> {
                             child: Text(
                               "Get Started",
                               style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
                                   color: primary),
                             )
                         )

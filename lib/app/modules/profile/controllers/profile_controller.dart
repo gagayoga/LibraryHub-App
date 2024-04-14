@@ -26,6 +26,7 @@ class ProfileController extends GetxController with StateMixin{
   @override
   void onInit() {
     super.onInit();
+    getDataUser();
   }
 
   @override
