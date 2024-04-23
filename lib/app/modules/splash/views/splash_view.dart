@@ -11,7 +11,7 @@ class SplashView extends GetView<SplashController> {
   const SplashView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    String statusUser = StorageProvider.read(StorageKey.status);
+    String? statusUser = StorageProvider.read(StorageKey.status);
 
     Future.delayed(
         const Duration(milliseconds: 4300), ( (){
